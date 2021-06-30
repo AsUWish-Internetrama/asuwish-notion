@@ -152,7 +152,7 @@ class BlockController extends AbstractController
                         $this->_blockHelper->setProperty([
                             'type' => 'Url',
                             'title' => 'CV',
-                            'data' => $this->getParameter('file_directory').'/'.$newFilename
+                            'data' => 'https://asuwish-notion.site-client.com/uploads/cv/'.$newFilename
                         ]);
                     } catch (FileException $e) {}
                 }
