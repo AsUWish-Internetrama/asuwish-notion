@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "Geomanist";
+    src: url("/assets/fonts/Geomanist-Regular.otf");
+}
+
+* {
+    font-family: Geomanist,Arial,Helvetica,sans-serif;
+}

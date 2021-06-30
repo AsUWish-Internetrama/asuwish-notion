@@ -1,0 +1,236 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="flex items-center justify-center flex-col py-8">
+        <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
+
+        <div class="w-5/12">
+            {% for label, messages in app.flashes(['success', 'warning']) %}
+                {% for message in messages %}
+                    <div class="border rounded bg-green-100 p-2 mb-8" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        
+        <div class="w-5/12">
+            {{ form_start(form) }}
+                <div class="flex flex-col">
+                    <div id="form-group-1" class="transform transition-all duration-500 ease-int scale-0">
+                        <span class="font-bold text-xl">Informations sur le poste</span>
+                        <div class="grid grid-cols-2 gap-4 border rounded p-4 mb-8 bg-gray-100">
+                            <div class="flex flex-col">
+                                {{ form_label(form.candidateType, 'Type de candidature') }}
+                                {{ form_widget(form.candidateType, {'attr': {'class': 'bg-white rounded border border-dark-600 p-3 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.postType, 'Type de poste') }}
+                                {{ form_widget(form.postType, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.agencies, 'Agence souhaitée') }}
+                                {{ form_widget(form.agencies, {'attr': {'class': 'bg-white rounded border border-dark-600 p-3 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.location, 'Lieu') }}
+                                {{ form_widget(form.location, {'attr': {'class': 'bg-white rounded border border-dark-600 p-3 mb-2'}}) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="form-group-2" class="transform transition-all duration-500 ease-int scale-0">
+                        <span class="font-bold text-xl">Informations sur vous</span>
+                        <div class="grid grid-cols-2 gap-4 border rounded p-4 mb-8 bg-gray-100">
+                            <div class="flex flex-col">
+                                {{ form_label(form.firstName, 'Prénom') }}
+                                {{ form_widget(form.firstName, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.lastName, 'Nom') }}
+                                {{ form_widget(form.lastName, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.phoneNumber, 'Téléphone') }}
+                                {{ form_widget(form.phoneNumber, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.email, 'Email') }}
+                                {{ form_widget(form.email, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.website, 'Site internet') }}
+                                {{ form_widget(form.website, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.linkedin, 'Profil Linkedin') }}
+                                {{ form_widget(form.linkedin, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.file, 'CV') }}
+                                {{ form_widget(form.file, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                            <div class="flex flex-col">
+                                {{ form_label(form.actualStatus, 'Statut actuel') }}
+                                {{ form_widget(form.actualStatus, {'attr': {'class': 'bg-white rounded border border-dark-600 p-3 mb-2'}}) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="form-group-3" class="transform transition-all duration-500 ease-int scale-0">
+                        <span class="font-bold text-xl">Un petit plus</span>
+                        <div class="grid grid-cols-1 gap-4 border rounded p-4 mb-4 bg-gray-100">
+                            <div class="flex flex-col">
+                                {{ form_label(form.description, 'Parlez nous de vous') }}
+                                {{ form_widget(form.description, {'attr': {'class': 'bg-white rounded border border-dark-600 p-2 mb-2'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="form-group-4" class="transform transition-all duration-500 ease-int scale-0">
+                    {{ form_widget(form.save, {'attr': {'class': 'bg-gray-900 text-white rounded border border-dark-600 p-2 w-full mt-2'}}) }}
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function setSetpsForm() {
+            /* Get all groups form */
+            var formGroupOne = document.getElementById('form-group-1');
+            var formGroupTwo = document.getElementById('form-group-2');
+            var formGroupThree = document.getElementById('form-group-3');
+            var formGroupFour = document.getElementById('form-group-4');
+            /* Add effect for form one */
+            formGroupOne.classList.remove('scale-0');
+            formGroupOne.classList.add('scale-100');
+            /* Initialize hidden */
+            formGroupTwo.classList.add('hidden');
+            formGroupThree.classList.add('hidden');
+            formGroupFour.classList.add('hidden');
+            /* Unlock second part of form */
+            var inputRecruitmentPostType = document.getElementById('recruitment_postType');
+            inputRecruitmentPostType.addEventListener('input', function() {
+                if (inputRecruitmentPostType.value.length > 3) {
+                    formGroupTwo.classList.remove('hidden');
+                    if (inputRecruitmentFirstName.value.length > 3 && inputRecruitmentLastName.value.length > 3 && inputRecruitmentEmail.value.length > 3) {
+                        formGroupThree.classList.remove('hidden');
+                        formGroupFour.classList.remove('hidden');
+                    }
+                } else {
+                    formGroupTwo.classList.add('hidden');
+                    formGroupThree.classList.add('hidden');
+                    formGroupFour.classList.add('hidden');
+                }
+                sleep(300).then(() => {
+                    if (!formGroupTwo.classList.contains('hidden')) {
+                        formGroupTwo.classList.remove('scale-0');
+                        formGroupTwo.classList.add('scale-100');
+                    } else {
+                        formGroupTwo.classList.remove('scale-100');
+                        formGroupTwo.classList.add('scale-0');
+                    }
+                    if (!formGroupThree.classList.contains('hidden')) {
+                        formGroupThree.classList.remove('scale-0');
+                        formGroupThree.classList.add('scale-100');
+                        formGroupFour.classList.remove('scale-0');
+                        formGroupFour.classList.add('scale-100');
+                    } else {
+                        formGroupThree.classList.remove('scale-100');
+                        formGroupThree.classList.add('scale-0');
+                        formGroupFour.classList.remove('scale-0');
+                        formGroupFour.classList.add('scale-100');
+                    }
+                });
+            });  
+            /* Unlock third part of form */
+            var inputRecruitmentFirstName = document.getElementById('recruitment_firstName');   
+            var inputRecruitmentLastName = document.getElementById('recruitment_lastName');  
+            var inputRecruitmentEmail = document.getElementById('recruitment_email'); 
+            /* Check if input first name is OK */
+            inputRecruitmentFirstName.addEventListener('input', function() {
+                if (inputRecruitmentFirstName.value.length > 3 && inputRecruitmentLastName.value.length > 3 && inputRecruitmentEmail.value.length > 3) {
+                    formGroupThree.classList.remove('hidden');
+                    formGroupFour.classList.remove('hidden');
+                } else {
+                    formGroupThree.classList.add('hidden');
+                    formGroupFour.classList.remove('hidden');
+                }
+                sleep(300).then(() => {
+                    if (!formGroupThree.classList.contains('hidden')) {
+                        formGroupThree.classList.remove('scale-0');
+                        formGroupThree.classList.add('scale-100');
+                        formGroupFour.classList.remove('scale-0');
+                        formGroupFour.classList.add('scale-100');
+                    } else {
+                        formGroupThree.classList.remove('scale-100');
+                        formGroupThree.classList.add('scale-0');
+                        formGroupFour.classList.remove('scale-100');
+                        formGroupFour.classList.add('scale-0');
+                    }
+                });
+            });
+ 
+            /* Check if input last name is OK */
+            inputRecruitmentLastName.addEventListener('input', function() {
+                if (inputRecruitmentFirstName.value.length > 3 && inputRecruitmentLastName.value.length > 3 && inputRecruitmentEmail.value.length > 3) {
+                    formGroupThree.classList.remove('hidden');
+                    formGroupFour.classList.remove('hidden');
+                } else {
+                    formGroupThree.classList.add('hidden');
+                    formGroupFour.classList.remove('hidden');
+                }
+                sleep(300).then(() => {
+                    if (!formGroupThree.classList.contains('hidden')) {
+                        formGroupThree.classList.remove('scale-0');
+                        formGroupThree.classList.add('scale-100');
+                        formGroupFour.classList.remove('scale-0');
+                        formGroupFour.classList.add('scale-100');
+                    } else {
+                        formGroupThree.classList.remove('scale-100');
+                        formGroupThree.classList.add('scale-0');
+                        formGroupFour.classList.remove('scale-100');
+                        formGroupFour.classList.add('scale-0');
+                    }
+                });
+            });
+            /* Check if input email name is OK */
+            inputRecruitmentEmail.addEventListener('input', function() {
+                if (inputRecruitmentFirstName.value.length > 3 && inputRecruitmentLastName.value.length > 3 && inputRecruitmentEmail.value.length > 3) {
+                    formGroupThree.classList.remove('hidden');
+                    formGroupFour.classList.remove('hidden');
+                } else {
+                    formGroupThree.classList.add('hidden');
+                    formGroupFour.classList.remove('hidden');
+                }
+                sleep(300).then(() => {
+                    if (!formGroupThree.classList.contains('hidden')) {
+                        formGroupThree.classList.remove('scale-0');
+                        formGroupThree.classList.add('scale-100');
+                        formGroupFour.classList.remove('scale-0');
+                        formGroupFour.classList.add('scale-100');
+                    } else {
+                        formGroupThree.classList.remove('scale-100');
+                        formGroupThree.classList.add('scale-0');
+                        formGroupFour.classList.remove('scale-100');
+                        formGroupFour.classList.add('scale-0');
+                    }
+                });
+            });
+        }
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+        function initScripts() {
+            setSetpsForm();
+        }
+        if (document.readyState !== "loading") {
+            initScripts();
+        } else {
+            document.addEventListener("DOMContentLoaded", function () {
+                initScripts();
+            });
+        }
+    </script>
+
+{% endblock %}
