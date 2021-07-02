@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BlockController extends AbstractController
 {
@@ -19,14 +18,12 @@ class BlockController extends AbstractController
      */
     public function __construct(
         BlockHelper $blockHelper
-        //SluggerInterface $slugger
     ) {
         $this->_blockHelper = $blockHelper;
-        //$this->_slugger = $slugger;
     }
 
     /**
-     * @Route("/", name="block")
+     * @Route("/recruitement", name="block")
      */
     public function index(Request $request): Response
     {
@@ -139,8 +136,6 @@ class BlockController extends AbstractController
 
                 /** Save file and send link */
                 if ($file = $form->get('file')->getData()) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    //$safeFilename = $this->_slugger->slug($originalFilename);
                     $newFilename = uniqid().'.'.$file->guessExtension();
     
                     try {
