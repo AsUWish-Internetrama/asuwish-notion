@@ -63,10 +63,29 @@ class AdminController extends AbstractController
             /** Save new offer to file */
             $em->persist($newOffer);
             $em->flush();
+
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/delete/{id}", name="admin_delete")
+     */
+    public function delete(Request $request, EntityManagerInterface $em, OfferRepository $offerRepository, $id): Response
+    {
+        $offer = $offerRepository->find($id);
+        if ($offer) {
+            $em->remove($offer);
+            $em->flush();
+            $this->addFlash('success', 'Vous venez de supprimer une offre.');
+        } else {
+            $this->addFlash('success', 'L\'offre n\'existe pas.');
+        }
+
+        return $this->redirectToRoute('admin');
     }
 }

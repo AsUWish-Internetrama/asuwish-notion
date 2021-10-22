@@ -13,15 +13,23 @@
 {% block body %}
     <div class="flex items-center flex-col">
         <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
-       
+       <div>
+            {% for label, messages in app.flashes(['success', 'warning']) %}
+                {% for message in messages %}
+                    <div class="border rounded bg-green-100 p-2 mb-8" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
         <div class="w-3/6">
-            <ul class="mb-8">
+            <ul class="border rounded p-4 mb-8 bg-gray-100 space-y-4">
                 {% for offer in offers %}
-                    <li class="border p-4 flex flex-row justify-between">
+                    <li class="border p-4 flex flex-row justify-between bg-white">
                         <span>{{ offer.title }}</span>
                         <div class="space-x-2">
-                            <a href="{{ path('offer_show', {'id': offer.id})}}" class="p-2 pl-4 pr-4 bg-green-400 rounded">Voir</a>
-                            <a href="{{ path('offer_show', {'id': offer.id})}}" class="p-2 pl-4 pr-4 bg-red-400 rounded">Supprimer</a>
+                            <a href="{{ path('offer_show', {'id': offer.id})}}" target="_blank" class="p-2 pl-4 pr-4 bg-green-400 rounded">Voir</a>
+                            <a href="{{ path('admin_delete', {'id': offer.id})}}" class="p-2 pl-4 pr-4 bg-red-400 rounded">Supprimer</a>
                         </div>
                     </li>
                 {% endfor %}
