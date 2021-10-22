@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .required:after {
+            content:" *";
+            color: red;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="flex items-center flex-col">
+        <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
+       
+        <div class="w-3/6">
+            <ul class="mb-8">
+                {% for offer in offers %}
+                    <li class="border p-4 flex flex-row justify-between">
+                        <span>{{ offer.title }}</span>
+                        <div class="space-x-2">
+                            <a href="{{ path('offer_show', {'id': offer.id})}}" class="p-2 pl-4 pr-4 bg-green-400 rounded">Voir</a>
+                            <a href="{{ path('offer_show', {'id': offer.id})}}" class="p-2 pl-4 pr-4 bg-red-400 rounded">Supprimer</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <a href="{{ path('admin_create') }}" class="bg-gray-900 text-white rounded border border-dark-600 p-2 hover:bg-gray-800 w-full">Créer une offre</a>
+        </div>    
+    </div>
+{% endblock %}

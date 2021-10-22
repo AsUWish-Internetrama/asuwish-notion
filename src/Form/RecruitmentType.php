@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Validator\Constraints\File;
 
+use App\Repository\OfferRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +17,24 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RecruitmentType extends AbstractType
 {
+    protected $_offers = [
+        'Spontanée pour CDI' => 'Spontanée pour CDI',
+        'Spontanée pour alternance' => 'Spontanée pour alternance',
+        'Spontanée pour stage' => 'Spontanée pour stage'
+    ];
+
+    public function __construct(
+        OfferRepository $offerRepository
+    ) {
+        $this->_offerRepository = $offerRepository;
+
+        foreach ($this->_offerRepository->findAll() as $offer) {
+            if ($offer->getTitle()) {
+                $this->_offers[$offer->getTitle()] = $offer->getTitle();
+            }
+        }
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -26,7 +45,7 @@ class RecruitmentType extends AbstractType
                 'required' => true
             ])
             ->add('phoneNumber', TextType::class, [
-                'required' => false
+                'required' => true
             ])
             ->add('email', EmailType::class, [
                 'required' => true
@@ -37,9 +56,6 @@ class RecruitmentType extends AbstractType
             ->add('linkedin', UrlType::class, [
                 'required' => false
             ])
-            ->add('postType', TextType::class, [
-                'required' => true
-            ])
             ->add('description', TextareaType::class, [
                 'required' => true
             ])
@@ -47,14 +63,14 @@ class RecruitmentType extends AbstractType
                 'choices'  => [
                     'En poste' => 'En poste',
                     'Disponible' => 'Disponible',
-                    'En étude' => 'En étude',
+                    'Étudiant' => 'Étudiant',
                 ],
             ])
             ->add('location', ChoiceType::class, [
                 'choices'  => [
                     'Pas de préférence' => 'Pas de préférence',
                     'Rouen' => 'Rouen',
-                    'Cean' => 'Cean',
+                    'Caen' => 'Caen',
                     'Rennes' => 'Rennes'
                 ],
             ])
@@ -75,15 +91,11 @@ class RecruitmentType extends AbstractType
                 ],
             ])
             ->add('candidateType', ChoiceType::class, [
-                'choices'  => [
-                    'Spontanée pour CDI' => 'Spontanée pour CDI',
-                    'Spontanée pour alternance' => 'Spontanée pour alternance',
-                    'Spontanée pour stage' => 'Spontanée pour stage'              
-                ],
+                'choices'  => $this->_offers,
             ])
             ->add('file', FileType::class, [
                 'mapped' => false,
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

@@ -3,7 +3,11 @@ parameters:
     api_version: '%env(API_VERSION)%'
     api_url: '%env(API_URL)%'
     api_database_id: '%env(API_DATABASE_ID)%'
-    file_directory: '%kernel.project_dir%/public/uploads/cv'
+    file_directory_cv: '%kernel.project_dir%/public/uploads/cv'
+    file_directory_offer: '%kernel.project_dir%/public/uploads/offers'
+    api_key_mailjet: '%env(API_KEY_MAILJET)%'
+    api_secret_mailjet: '%env(API_SECRET_MAILJET)%'
+    template_id_mailjet: '%env(TEMPLATE_ID_MAILJET)%'
 
 services:
     _defaults:

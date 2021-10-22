@@ -3,27 +3,31 @@
 namespace App\Controller;
 
 use App\Service\BlockHelper;
+use App\Service\ApiMailjet;
 use App\Form\RecruitmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class BlockController extends AbstractController
+class RecruitementController extends AbstractController
 {
     /**
      * Construct function
      * 
+     * @param ApiMailjet $apiMailjet
      * @param BlockHelper $blockHelper
      */
     public function __construct(
-        BlockHelper $blockHelper
+        BlockHelper $blockHelper,
+        ApiMailjet $apiMailjet
     ) {
         $this->_blockHelper = $blockHelper;
+        $this->_apiMailjet = $apiMailjet;
     }
 
     /**
-     * @Route("/recruitement", name="block")
+     * @Route("/recruitement", name="recruitement")
      */
     public function index(Request $request): Response
     {
@@ -61,15 +65,6 @@ class BlockController extends AbstractController
                         'data' => $candidateData['phoneNumber']
                     ]);
                 }
-
-                /** Set post type */
-                if ($candidateData['postType']) {
-                    $this->_blockHelper->setProperty([
-                        'type' => 'RichText',
-                        'title' => 'Poste souhaité',
-                        'data' => $candidateData['postType']
-                    ]);
-                } 
 
                 /** Set candidate type */
                 if ($candidateData['candidateType']) {
@@ -140,7 +135,7 @@ class BlockController extends AbstractController
     
                     try {
                         $file->move(
-                            $this->getParameter('file_directory'),
+                            $this->getParameter('file_directory_cv'),
                             $newFilename
                         );
 
@@ -149,7 +144,7 @@ class BlockController extends AbstractController
                             'title' => 'CV',
                             'data' => 'https://asuwish-notion.site-client.com/uploads/cv/'.$newFilename
                         ]);
-                    } catch (FileException $e) {}
+                    } catch (\Exception $e) {}
                 }
 
                 /** Set children */
@@ -163,14 +158,21 @@ class BlockController extends AbstractController
                 $this->_blockHelper->sendRequest();
                 $this->_blockHelper->resetData();
 
+                /** Send email confirmation */
+                if ($candidateData['email']) {
+                    try {
+                        $this->_apiMailjet->sendEmail($candidateData['email']);
+                    } catch (\Exception $e) {}
+                }
+
                 $this->addFlash('success', 'Votre demande a été transmise, vous aurez une réponse sous peu.');
             } else {
                 $this->addFlash('warning', 'Votre demande n\'a pas été transmise, un problème est survenue.');
             }
-            return $this->redirectToRoute('block');
+            return $this->redirectToRoute('recruitement');
         }
 
-        return $this->render('block/index.html.twig', [
+        return $this->render('recruitement/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }

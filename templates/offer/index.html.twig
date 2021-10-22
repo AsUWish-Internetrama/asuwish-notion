@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('home') }}">Retour</a>
+    {% include '@web_dir/uploads/offers/' ~ offer.file %}
+{% endblock %}

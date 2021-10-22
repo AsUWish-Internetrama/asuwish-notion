@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="grid grid-cols-2 gap-4 auto-cols-auto">
-    <div class="flex flex-col gap-4">
-        {% for item in 0..10 %}
-            <div class="rounded border p-4 flex flex-col hover:shadow-sm">
-                <span class="text-xs text-green-800">nouveau</span>
-                <b>Développeur</b>
-                <span>Pour : Internetrama</span>
-                <span>Rouen</span>
-            </div>
+    <div class="flex items-center flex-col">
+        <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 mb-8">
+        {% for offer in offers %}
+            <a href="{{ path('offer_show', {'id': offer.id}) }}" class="p-4 border rounded hover:shadow-sm">
+                <span class="font-bold text-xl">{{ offer.title }}</span>
+                <p>{{ offer.description }}</p>
+            </a>
         {% endfor %}
+        
+        <a href="{{ path('recruitement') }}" class="p-4 border rounded hover:shadow-sm flex items-center justify-center bg-gray-100">
+            Envoyer votre candidature spontanée
+        </a>
     </div>
-    <div class="flex felx-col p-4 rounded border" style="height: fit-content;">
-        test
-    </div>
-</div>
-    
 {% endblock %}
