@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="flex items-center flex-col">
-        <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
-    </div>
-
     <div class="grid grid-cols-3 gap-4 mb-8">
         {% for offer in offers %}
             <a href="{{ path('offer_show', {'id': offer.id}) }}" class="p-4 border rounded hover:shadow-sm">

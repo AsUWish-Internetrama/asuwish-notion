@@ -11,25 +11,22 @@
 {% endblock %}
 
 {% block body %}
-
-<div class="flex items-center flex-col">
-    <img src="{{ asset('/images/logo.png') }}" class="w-40 pb-6">
-    <form method="post">   
-        <div class="grid grid-cols-2 gap-4 border rounded p-4 mb-8 bg-gray-100">
-            <div class="flex flex-col">
-                <label for="inputEmail">Adresse mail</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="bg-white rounded border border-dark-600 p-3 mb-2" autocomplete="email" required autofocus>
+    <div class="flex items-center flex-col">
+        <form method="post">   
+            <div class="grid grid-cols-2 gap-4 border rounded p-4 mb-8 bg-gray-100">
+                <div class="flex flex-col">
+                    <label for="inputEmail">Adresse mail</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="bg-white rounded border border-dark-600 p-3 mb-2" autocomplete="email" required autofocus>
+                </div>
+                <div class="flex flex-col">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="bg-white rounded border border-dark-600 p-3 mb-2" autocomplete="current-password" required>
+                </div>      
             </div>
-            <div class="flex flex-col">
-                <label for="inputPassword">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="bg-white rounded border border-dark-600 p-3 mb-2" autocomplete="current-password" required>
-            </div>      
-        </div>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
-        <button class="bg-gray-900 text-white rounded border border-dark-600 p-2 hover:bg-gray-800 w-full" type="submit">
-            Se connecter
-        </button>
-    </form>
-    
-</div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+            <button class="bg-gray-900 text-white rounded border border-dark-600 p-2 hover:bg-gray-800 w-full" type="submit">
+                Se connecter
+            </button>
+        </form>
+    </div>
 {% endblock %}

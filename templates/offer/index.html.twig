@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <a href="{{ path('home') }}">Retour</a>
-    {% include '@web_dir/uploads/offers/' ~ offer.file %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body  {
+            white-space: initial !important;
+        }
+    </style>
 {% endblock %}
+
+{% block body %}
+    {% include '@web_dir/uploads/offers/' ~ offer.file %}
+{% endblock %}    

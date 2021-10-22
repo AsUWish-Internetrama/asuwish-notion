@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use \Mailjet\Resources;
+use Mailjet\Resources;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class ApiMailjet 
@@ -28,8 +28,30 @@ class ApiMailjet
         );
     }
 
-    public function sendEmail($email)
+    public function sendEmail($mail)
     {
-        return true;
+        $mj = $this->getClient();
+
+        $body = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => "contact@internetrama.com",
+                        'Name' => "Candidature ASUWISH"
+                    ],
+                    'To' => [
+                        [
+                            'Email' => "$mail",
+                            'Name' => "You"
+                        ]
+                    ],
+                    'Subject' => "Candidature ASUWISH", 
+                    'TemplateID' => 3280561
+                ]
+            ]
+        ];
+                
+        $response = $mj->post(Resources::$Email, ['body' => $body]);        
+        $response->success() && var_dump($response->getData());
     }
 }
